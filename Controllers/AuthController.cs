@@ -1,0 +1,22 @@
+﻿using Autenticador.Models.Request;
+using Autenticador.Services.Auth;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Autenticador.Controllers;
+
+[Route("[controller]")]
+[ApiController]
+public class AuthController : ControllerBase
+{
+    [HttpPost]
+    //[ProducesResponseType(typeof(CreateUserInput), StatusCodes.Status201Created)]
+    public async Task<IActionResult> Register(
+        [FromServices] IAuthService service,
+        RegisterRequest request
+    )
+    {
+        var result = service.ExecuteRegister(request);
+
+        return Created(string.Empty, result);
+    }
+}
