@@ -1,0 +1,21 @@
+
+services:
+  autenticador-api:
+    build: .
+    ports: 
+      - "8090:80"
+    depends_on:
+      - "postgres"
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ctePGSQL
+      POSTGRES_USER: sa
+      POSTGRES_DB: autenticadorDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
