@@ -1,16 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[Route("[controller]")]
+[ApiController]
+public class AuthController : ControllerBase
 {
-    [Route("/")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    [HttpPost]
+    //[ProducesResponseType(typeof(CreateUserInput), StatusCodes.Status201Created)]
+    public async Task<IActionResult> Register(
+        [FromServices] IAuthService service,
+        RegisterRequest request
+    )
     {
-        [HttpGet()]
-        public string Get()
-        {
-            return "rodando api";
-        }
+        //var result = service.ExecuteRegister(request);
+
+        return Created(string.Empty, "AUTENTICADOR");
+    }
+
+    [HttpGet]
+    //[ProducesResponseType(typeof(CreateUserInput), StatusCodes.Status201Created)]
+    public IActionResult Login(
+    )
+    {
+        return Ok("AUTENTICADOR");
     }
 }
