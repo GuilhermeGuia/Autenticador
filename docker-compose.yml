@@ -1,0 +1,25 @@
+services:
+  autenticador.api:
+    image: ${DOCKER_REGISTRY-}autenticador.api
+    container_name: autenticador.api
+    restart: always
+    build:
+      context: .
+      dockerfile: src/Api/Dockerfile
+    depends_on:
+      - "autenticador.db"
+    ports:
+      - 43000:80
+
+  autenticador.db:
+    image: postgres:latest
+    container_name: autenticador.db
+    restart: always
+    environment:
+      - POSTGRES_DB=autenticadordb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=ctepgSQL
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.containers/autenticador-db:/var/lib/postgresql/data
