@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
+﻿using Api.Exceptions;
+using Api.Models.Request;
+using Api.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -14,16 +16,8 @@ public class AuthController : ControllerBase
         RegisterRequest request
     )
     {
-        //var result = service.ExecuteRegister(request);
+        var result = await service.ExecuteRegister(request);
 
-        return Created(string.Empty, "AUTENTICADOR");
-    }
-
-    [HttpGet]
-    //[ProducesResponseType(typeof(CreateUserInput), StatusCodes.Status201Created)]
-    public IActionResult Login(
-    )
-    {
-        return Ok("AUTENTICADOR");
+        return Created(string.Empty, new { Message = result });
     }
 }
