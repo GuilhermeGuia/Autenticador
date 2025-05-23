@@ -1,6 +1,7 @@
 ﻿using Api.Exceptions;
-using Microsoft.AspNetCore.Mvc.Filters;
+using Api.Models.Request;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Api.Filters;
 
@@ -17,13 +18,13 @@ public class ExceptionGlobalFilter : IExceptionFilter
     private void HandleProjectException(BaseException castDesafioPicPayException, ExceptionContext context)
     {
         context.HttpContext.Response.StatusCode = (int)castDesafioPicPayException.GetStatusCode();
-        context.Result = new ObjectResult(castDesafioPicPayException.GetErrorMessages());
+        context.Result = new ObjectResult(new BaseRequest<string>(castDesafioPicPayException.GetErrorMessage()));
     }
 
     private void HandleUnknowException(ExceptionContext context)
     {
         context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Result = new ObjectResult("Erro interno");
+        context.Result = new ObjectResult(new BaseRequest<string>("Erro interno"));
     }
 }
 
