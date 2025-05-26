@@ -1,15 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Infra.DataAccess;
 
-public class AutenticadorDbContext : DbContext
+public class AutenticadorDbContext(DbContextOptions<AutenticadorDbContext> options) : DbContext(options)
 {
-    public AutenticadorDbContext(DbContextOptions<AutenticadorDbContext> options) : base(options) { }
     #region DBSETS
-        
-
-
+        public virtual DbSet<UserEntity> User { get; set; }
     #endregion
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AutenticadorDbContext).Assembly);
