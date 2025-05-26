@@ -1,5 +1,6 @@
 using Api.DI;
 using Api.Filters;
+using Api.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,7 @@ builder.Services.AddControllers(options =>
     options.Filters.Add(typeof(ExceptionGlobalFilter));
 });
 
-builder.Services.AddServices();
+builder.Services.AddDI(builder.Configuration);
 
 var app = builder.Build();
 
@@ -40,4 +41,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+Migrate();
+
 app.Run();
+
+void Migrate()
+{
+    var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+ 
+    DatabaseMigration.MigrateDatabase(serviceScope.ServiceProvider);
+}
