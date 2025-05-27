@@ -11,6 +11,11 @@ public class AutenticadorDbContext(DbContextOptions<AutenticadorDbContext> optio
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        modelBuilder.Entity<UserEntity>()
+            .Property(x => x.IsVerified)
+            .HasDefaultValue(false);
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AutenticadorDbContext).Assembly);
     }
 }
