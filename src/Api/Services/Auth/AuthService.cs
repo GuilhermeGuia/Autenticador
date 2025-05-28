@@ -1,15 +1,15 @@
 ﻿using Api.Exceptions;
+using Api.Infra.Crypto;
+using Api.Models;
+using Api.Models.Repositories;
 using Api.Models.Request;
 
 namespace Api.Services.Auth;
 
-public class AuthService : IAuthService
+public class AuthService(IAuthRepository authRepository, Hasher hasher, IUnitOfWork unitOfWork) : IAuthService
 {
-
-    public async Task<string> ExecuteRegister(RegisterRequest request)
+    public async Task ExecuteRegister(RegisterRequest request)
     {
-        // criar logica para registro de usuarios no sistema
-
         if (string.IsNullOrWhiteSpace(request.Name))
             throw new RegisterException("Nome inválido.");
 
@@ -19,11 +19,20 @@ public class AuthService : IAuthService
         if (string.IsNullOrWhiteSpace(request.Password))
             throw new RegisterException("Senha inválida.");
 
+        if (await authRepository.UserExists(request.Email))
+            throw new RegisterException("Email já cadastrado no sistema.");
+
+        // fazer crypto da senha
+        var password = hasher.Encrypt(request.Password);
+
+        var user = new UserEntity(request.Name, request.Email, password);
+
+        await authRepository.Add(user);
+
+        await unitOfWork.SaveChangesAsync();
+
+        // enviar notificação via email pro cara
 
 
-
-
-        return "request";
     }
-
 }

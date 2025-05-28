@@ -5,7 +5,7 @@ namespace Api.Services.Auth;
 
 public interface IAuthService
 {
-    Task<string> ExecuteRegister(RegisterRequest request);
+    Task ExecuteRegister(RegisterRequest request);
     //void ExecuteLogin();
     //void ExecuteVerifyEmail();
     //void ExecuteResetPassword();

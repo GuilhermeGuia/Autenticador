@@ -16,8 +16,8 @@ public class AuthController : ControllerBase
         RegisterRequest request
     )
     {
-        var result = await service.ExecuteRegister(request);
+        await service.ExecuteRegister(request);
 
-        return Created(string.Empty, new { Message = result });
+        return Created();
     }
 }

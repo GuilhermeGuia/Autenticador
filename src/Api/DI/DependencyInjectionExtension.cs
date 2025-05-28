@@ -1,4 +1,5 @@
-﻿using Api.Infra.DataAccess;
+﻿using Api.Infra.Crypto;
+using Api.Infra.DataAccess;
 using Api.Infra.DataAccess.Repositories;
 using Api.Models.Repositories;
 using Api.Services.Auth;
@@ -18,6 +19,8 @@ public static class DependencyInjectionExtension
     public static void AddServices(IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
+
+        services.AddScoped<Hasher>();
     }
     public static void AddDbContext(IServiceCollection services, IConfiguration configuration)
     {

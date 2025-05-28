@@ -7,10 +7,10 @@ public class AuthRepository(AutenticadorDbContext dbContext) : Repository<UserEn
 {
     public async Task<UserEntity>? GetByEmail(string email) => await Find(x => x.Email == email);
     public async Task<UserEntity>? GetByName(string name) => await Find(x => x.Name == name);
-    public async Task<bool> ValidateUserExists(string email) 
+    public async Task<bool> UserExists(string email) 
     {
         var user = await Find(x => x.Email == email);
 
-        return user == null;
+        return user != null;
     }
 }
